@@ -9,6 +9,10 @@ public class Driver {
 
 		
 		System.out.println(b.tMoves(0, 1, true)[3]);
+		
+		b.istMoveLegal(1, 0, 1, 4);
+		
+		System.out.println(b.istMoveLegal(1, 0, 1, 7));
 
 		
 	

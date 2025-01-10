@@ -1,7 +1,5 @@
 package chess;
-
 import java.util.ArrayList;
-
 public class Board {
 	
 	private Piece[][] squares;
@@ -104,25 +102,124 @@ public class Board {
 	
 	
 	
-	/*
-	 * public int [] xMoves(int ypos, int xpos, boolean colour) { int [] Edges = new
-	 * int[4]; if (squares[ypos][xpos].getType() != PieceType.NONE &&
-	 * squares[row][xpos].getColour() != colour && row != ypos) { Edges[0] = ypos;
-	 * 
-	 * }
-	 * 
-	 * if (squares[ypos][xpos].getType() != PieceType.NONE &&
-	 * squares[row][xpos].getColour() == colour && row != ypos) { Edges[0] = ypos-1;
-	 * 
-	 * }
-	 * 
-	 * 
-	 * return null; }
-	 */
 	
+	public int [] xMoves(int ypos, int xpos, boolean colour) {
+		// starting with north East edges and going clock wise
+		int [] Edges = new int[8];
+		// north east
+		for(int row = ypos, file = xpos; row < numRows && file < numCols; row++, file++) {
+			if (squares[row][file].getType() != PieceType.NONE && squares[row][file].getColour() != colour && row != ypos) {
+				Edges[0] = row;
+				Edges[1] = file;
+				break;
+			}
+			
+			if (squares[row][file].getType() != PieceType.NONE && squares[row][file].getColour() == colour && row != ypos) {
+				Edges[0] = row-1;
+				Edges[1] = file-1;
+				break;
+			}
+			
+			else {
+				Edges[0] = row;
+				Edges[1] = file;
+			}
+		}
+		
+		// South east
+		for(int row = ypos, file = xpos; row > 0 && file < numCols; row--, file++) {
+			if (squares[row][file].getType() != PieceType.NONE && squares[row][file].getColour() != colour && row != ypos) {
+				Edges[2] = row;
+				Edges[3] = file;
+				break;
+			}
+			
+			if (squares[row][file].getType() != PieceType.NONE && squares[row][file].getColour() == colour && row != ypos) {
+				Edges[2] = row+1;
+				Edges[3] = file-1;
+				break;
+			}
+			else {
+				Edges[2] = row;
+				Edges[3] = file;
+			}
+		}
+		// south West
+		for(int row = ypos, file = xpos; row > 0 && file > 0; row--, file--) {
+			if (squares[row][file].getType() != PieceType.NONE && squares[row][file].getColour() != colour && row != ypos) {
+				Edges[4] = row;
+				Edges[5] = file;
+				break;
+			}
+			
+			if (squares[row][file].getType() != PieceType.NONE && squares[row][file].getColour() == colour && row != ypos) {
+				Edges[4] = row+1;
+				Edges[5] = file+1;
+				break;
+			}
+			else {
+				Edges[4] = row;
+				Edges[5] = file;
+			}
+		}
+		// north west
+		for(int row = ypos, file = xpos; row < numRows && file > 0; row++, file--) {
+			if (squares[row][file].getType() != PieceType.NONE && squares[row][file].getColour() != colour && row != ypos) {
+				Edges[6] = row;
+				Edges[7] = file;
+				break;
+			}
+			
+			if (squares[row][file].getType() != PieceType.NONE && squares[row][file].getColour() == colour && row != ypos) {
+				Edges[6] = row+1;
+				Edges[7] = file-1;
+				break;
+			}
+			else {
+				Edges[6] = row;
+				Edges[7] = file;
+			}
+		}
+		
+		return Edges;
+	}
 	
-	
-	
+	public boolean istMoveLegal(int xpos, int ypos, int x2pos, int y2pos) {
+		// checking north
+		if(xpos == x2pos && ypos < y2pos) {
+			for(int row = ypos; row <= tMoves(ypos, xpos, squares[ypos][xpos].getColour())[0]; row++) {
+				if(y2pos == row) {
+					return true;
+				}
+			}
+		}
+		// checking south
+		if(xpos == x2pos && ypos > y2pos) {
+			for(int row = ypos; row >= tMoves(ypos, xpos, squares[ypos][xpos].getColour())[2]; row--) {
+				if(y2pos == row) {
+					return true;
+				}
+			}
+		}
+		// east
+		if(ypos == y2pos && xpos < x2pos) {
+			for(int file = xpos; file <= tMoves(ypos, xpos, squares[ypos][xpos].getColour())[1]; file++) {
+				if(x2pos == file) {
+					return true;
+				}
+			}
+		}
+		// west
+		if(ypos == y2pos && xpos > x2pos) {
+			for(int file = xpos; file >= tMoves(ypos, xpos, squares[ypos][xpos].getColour())[3]; file--) {
+				if(x2pos == file) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
 	
 	
 	
@@ -149,11 +246,7 @@ public class Board {
 		
 	}
 	
-
-
 	
-
 	
-
-
 }
+
