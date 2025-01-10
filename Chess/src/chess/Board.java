@@ -223,8 +223,22 @@ public class Board {
 	
 	
 	
-	
-	
+	// not done yet
+	public boolean isxmoveLegal(int xpos, int ypos, int x2pos, int y2pos) {
+		// north east
+		if(xpos < x2pos && ypos < y2pos) {
+			for(int row = ypos, file = xpos; row <= xMoves(ypos, xpos, squares[ypos][xpos].getColour())[0] && file <= xMoves(ypos, xpos, squares[ypos][xpos].getColour())[1]; row++, file++) {
+				if(row == y2pos && file == x2pos) {
+					return true;
+				}
+			}
+		}
+		
+		
+		
+		
+		return false;
+	}
 	
 	
 	
