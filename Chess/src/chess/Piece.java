@@ -5,13 +5,14 @@ package chess;
 public class Piece {
 	private PieceType type;
 	private boolean colour;
-	
+	private boolean hasMoved;
 
 	
 	Piece(PieceType p, boolean pcolour){
 	
 		colour = pcolour;
 		type = p;
+		hasMoved = false;
 		
 	}
 	
@@ -51,6 +52,15 @@ public class Piece {
 			return "| |";
 		}
 		
+	}
+
+
+	public boolean hasMoved() {
+		return hasMoved;
+	}
+	
+	public void setHasMoved() {
+		hasMoved = true;
 	}
 
 }

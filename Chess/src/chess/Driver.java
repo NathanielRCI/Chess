@@ -6,13 +6,16 @@ public class Driver {
 		Board b = new Board();
 
 		System.out.println(b);
+		b.makeMove(1, 1, 1, 3);
+		System.out.println(b);
+		b.makeMove(2, 6, 2, 4);
+		System.out.println(b);
+		b.makeMove(1, 3, 2, 4);
+		System.out.println(b);
+		b.makeMove(1, 0, 2, 2);
+		System.out.println(b);
+		System.out.print(b.infoOnPiece(2, 4).getColour());
 
-		
-		System.out.println(b.tMoves(0, 1, true)[3]);
-		
-		b.istMoveLegal(1, 0, 1, 4);
-		
-		System.out.println(b.istMoveLegal(1, 0, 1, 7));
 
 		
 	
