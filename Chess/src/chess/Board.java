@@ -437,7 +437,23 @@ public class Board {
 		return true;
 	}
 	
+	public ArrayList<Move> knightMoves(int x1, int y1) {
+		ArrayList<Move> moves = new ArrayList<Move>();
+		
+
+		for(int rows1 = 0; rows1 < 8; rows1++) {
+			for(int cols = 0; cols < 8; cols++) {
+				if(legalKnightMove(x1, y1, cols, rows1)) {
+					moves.add(new Move(x1, y1, cols, rows1));
+				}
+			}
+		}
+		
+		
+		return moves;
+	}
 	
+
 	
 	
 	

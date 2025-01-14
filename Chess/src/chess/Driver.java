@@ -14,7 +14,11 @@ public class Driver {
 		System.out.println(b);
 		b.makeMove(1, 0, 2, 2);
 		System.out.println(b);
-		System.out.print(b.infoOnPiece(2, 4).getColour());
+		System.out.println(b.infoOnPiece(2, 4).getColour());
+		
+		
+		System.out.println(b.knightMoves(1, 0).size());
+	
 
 
 		
