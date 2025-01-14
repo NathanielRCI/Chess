@@ -454,7 +454,12 @@ public class Board {
 	}
 	
 
-	
+	public boolean isCheck(int x, int y) {
+		if(squares[tMoves(y, x, squares[y][x].getColour())[0]][x].getType() == PieceType.ROOK || squares[tMoves(y, x, squares[y][x].getColour())[0]][x].getType() == PieceType.QUEEN || squares[tMoves(y, x, squares[y][x].getColour())[0]][x].getType() == PieceType.ROOK) {
+			return true;
+		}
+		return false;
+	}
 	
 	
 	
