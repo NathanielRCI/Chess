@@ -6,18 +6,17 @@ public class Driver {
 		Board b = new Board();
 
 		System.out.println(b);
-		b.makeMove(1, 1, 1, 3);
+		b.makeMove(5, 1, 5, 3);
 		System.out.println(b);
-		b.makeMove(2, 6, 2, 4);
+		b.makeMove(4, 6, 4, 4);
 		System.out.println(b);
-		b.makeMove(1, 3, 2, 4);
+		b.makeMove(4, 6, 4, 4);
 		System.out.println(b);
-		b.makeMove(1, 0, 2, 2);
+		b.makeMove(3, 7, 7, 3);
 		System.out.println(b);
-		System.out.println(b.infoOnPiece(2, 4).getColour());
-		
-		
-		System.out.println(b.knightMoves(1, 0).size());
+		System.out.println(b.isCheck(4, 0));
+
+
 	
 
 

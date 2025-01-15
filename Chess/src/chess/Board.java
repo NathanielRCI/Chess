@@ -258,7 +258,7 @@ public class Board {
 		}
 		// south east
 		if(xpos < x2pos && ypos > y2pos) {
-			for(int row = ypos, file = xpos; row <= xMoves(ypos, xpos, squares[ypos][xpos].getColour())[2] && file >= xMoves(ypos, xpos, squares[ypos][xpos].getColour())[3]; row++, file--) {
+			for(int row = ypos, file = xpos; row >= xMoves(ypos, xpos, squares[ypos][xpos].getColour())[2] && file <= xMoves(ypos, xpos, squares[ypos][xpos].getColour())[3]; row--, file++) {
 				if(row == y2pos && file == x2pos) {
 					return true;
 				}
@@ -458,6 +458,46 @@ public class Board {
 		if(squares[tMoves(y, x, squares[y][x].getColour())[0]][x].getType() == PieceType.ROOK || squares[tMoves(y, x, squares[y][x].getColour())[0]][x].getType() == PieceType.QUEEN || squares[tMoves(y, x, squares[y][x].getColour())[0]][x].getType() == PieceType.ROOK) {
 			return true;
 		}
+		
+		if(squares[tMoves(y, x, squares[y][x].getColour())[2]][x].getType() == PieceType.ROOK || squares[tMoves(y, x, squares[y][x].getColour())[2]][x].getType() == PieceType.QUEEN || squares[tMoves(y, x, squares[y][x].getColour())[2]][x].getType() == PieceType.ROOK) {
+			return true;
+		}
+		
+		if(squares[y][tMoves(y, x, squares[y][x].getColour())[1]].getType() == PieceType.ROOK || squares[y][tMoves(y, x, squares[y][x].getColour())[1]].getType() == PieceType.QUEEN || squares[y][tMoves(y, x, squares[y][x].getColour())[1]].getType() == PieceType.ROOK) {
+			return true;
+		}
+		
+		if(squares[y][tMoves(y, x, squares[y][x].getColour())[3]].getType() == PieceType.ROOK || squares[y][tMoves(y, x, squares[y][x].getColour())[3]].getType() == PieceType.QUEEN || squares[y][tMoves(y, x, squares[y][x].getColour())[3]].getType() == PieceType.ROOK) {
+			return true;
+		}
+		
+		if(squares[xMoves(y, x, squares[y][x].getColour())[0]][xMoves(y, x, squares[y][x].getColour())[1]].getType() == PieceType.ROOK || squares[tMoves(y, x, squares[y][x].getColour())[0]][xMoves(y, x, squares[y][x].getColour())[1]].getType() == PieceType.QUEEN || squares[tMoves(y, x, squares[y][x].getColour())[0]][xMoves(y, x, squares[y][x].getColour())[1]].getType() == PieceType.ROOK) {
+			return true;
+		}
+		
+		if(squares[xMoves(y, x, squares[y][x].getColour())[2]][xMoves(y, x, squares[y][x].getColour())[3]].getType() == PieceType.ROOK || squares[tMoves(y, x, squares[y][x].getColour())[2]][xMoves(y, x, squares[y][x].getColour())[3]].getType() == PieceType.QUEEN || squares[tMoves(y, x, squares[y][x].getColour())[2]][xMoves(y, x, squares[y][x].getColour())[3]].getType() == PieceType.ROOK) {
+			return true;
+		}
+		
+		if(squares[xMoves(y, x, squares[y][x].getColour())[4]][xMoves(y, x, squares[y][x].getColour())[5]].getType() == PieceType.ROOK || squares[tMoves(y, x, squares[y][x].getColour())[4]][xMoves(y, x, squares[y][x].getColour())[5]].getType() == PieceType.QUEEN || squares[tMoves(y, x, squares[y][x].getColour())[4]][xMoves(y, x, squares[y][x].getColour())[5]].getType() == PieceType.ROOK) {
+			return true;
+		}
+		
+		if(squares[xMoves(y, x, squares[y][x].getColour())[6]][xMoves(y, x, squares[y][x].getColour())[7]].getType() == PieceType.ROOK || squares[tMoves(y, x, squares[y][x].getColour())[6]][xMoves(y, x, squares[y][x].getColour())[7]].getType() == PieceType.QUEEN || squares[tMoves(y, x, squares[y][x].getColour())[6]][xMoves(y, x, squares[y][x].getColour())[7]].getType() == PieceType.ROOK) {
+			return true;
+		}
+		
+		
+		
+		ArrayList<Move> kMoves = knightMoves(x, y);	
+		
+		for(int i = 0; i < kMoves.size(); i++){
+			if(squares[kMoves.get(i).pos1()[1]][kMoves.get(i).pos1()[0]].getType() == PieceType.KNIGHT && squares[kMoves.get(i).pos1()[1]][kMoves.get(i).pos1()[0]].getColour() != squares[y][x].getColour()) {
+				return true;
+			}
+		}
+		
+		
 		return false;
 	}
 	
@@ -509,6 +549,8 @@ public class Board {
 			if(isxMoveLegal(x1, y1, x2, y2) || istMoveLegal(x1, y1, x2, y2)) {
 				move(x1, y1, x2, y2);
 			}
+
+
 		}
 		
 		if(piece == PieceType.ROOK) {
