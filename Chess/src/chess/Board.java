@@ -2,9 +2,10 @@ package chess;
 import java.util.ArrayList;
 public class Board {
 	
-	private Piece[][] squares;
+	public Piece[][] squares;
 	private static int numRows = 8;
 	private static int numCols = 8;
+	private Player players;
 	
 	Board(){
 		squares = new Piece[numRows][numCols];
@@ -45,7 +46,7 @@ public class Board {
 		squares[6][6] = new Piece(PieceType.PAWN,false);
 		squares[6][7] = new Piece(PieceType.PAWN,false);
 		squares[6][0] = new Piece(PieceType.PAWN,false);
-		
+		players = new Player();
 		
 		for(int r = 0; r < numRows; r++) {
 			for (int c = 0; c < numCols; c++) {
@@ -455,35 +456,35 @@ public class Board {
 	
 
 	public boolean isCheck(int x, int y) {
-		if(squares[tMoves(y, x, squares[y][x].getColour())[0]][x].getType() == PieceType.ROOK || squares[tMoves(y, x, squares[y][x].getColour())[0]][x].getType() == PieceType.QUEEN || squares[tMoves(y, x, squares[y][x].getColour())[0]][x].getType() == PieceType.ROOK) {
+		if((squares[tMoves(y, x, squares[y][x].getColour())[0]][x].getType() == PieceType.ROOK || squares[tMoves(y, x, squares[y][x].getColour())[0]][x].getType() == PieceType.QUEEN || squares[tMoves(y, x, squares[y][x].getColour())[0]][x].getType() == PieceType.ROOK) && squares[tMoves(y, x, squares[y][x].getColour())[0]][x].getColour() != squares[y][x].getColour()) {
 			return true;
 		}
 		
-		if(squares[tMoves(y, x, squares[y][x].getColour())[2]][x].getType() == PieceType.ROOK || squares[tMoves(y, x, squares[y][x].getColour())[2]][x].getType() == PieceType.QUEEN || squares[tMoves(y, x, squares[y][x].getColour())[2]][x].getType() == PieceType.ROOK) {
+		if((squares[tMoves(y, x, squares[y][x].getColour())[2]][x].getType() == PieceType.ROOK || squares[tMoves(y, x, squares[y][x].getColour())[2]][x].getType() == PieceType.QUEEN || squares[tMoves(y, x, squares[y][x].getColour())[2]][x].getType() == PieceType.ROOK) && squares[tMoves(y, x, squares[y][x].getColour())[2]][x].getColour() != squares[y][x].getColour()) {
 			return true;
 		}
 		
-		if(squares[y][tMoves(y, x, squares[y][x].getColour())[1]].getType() == PieceType.ROOK || squares[y][tMoves(y, x, squares[y][x].getColour())[1]].getType() == PieceType.QUEEN || squares[y][tMoves(y, x, squares[y][x].getColour())[1]].getType() == PieceType.ROOK) {
+		if((squares[y][tMoves(y, x, squares[y][x].getColour())[1]].getType() == PieceType.ROOK || squares[y][tMoves(y, x, squares[y][x].getColour())[1]].getType() == PieceType.QUEEN || squares[y][tMoves(y, x, squares[y][x].getColour())[1]].getType() == PieceType.ROOK) && squares[tMoves(y, x, squares[y][x].getColour())[1]][x].getColour() != squares[y][x].getColour()) {
 			return true;
 		}
 		
-		if(squares[y][tMoves(y, x, squares[y][x].getColour())[3]].getType() == PieceType.ROOK || squares[y][tMoves(y, x, squares[y][x].getColour())[3]].getType() == PieceType.QUEEN || squares[y][tMoves(y, x, squares[y][x].getColour())[3]].getType() == PieceType.ROOK) {
+		if((squares[y][tMoves(y, x, squares[y][x].getColour())[3]].getType() == PieceType.ROOK || squares[y][tMoves(y, x, squares[y][x].getColour())[3]].getType() == PieceType.QUEEN || squares[y][tMoves(y, x, squares[y][x].getColour())[3]].getType() == PieceType.ROOK) && squares[tMoves(y, x, squares[y][x].getColour())[3]][x].getColour() != squares[y][x].getColour()) {
 			return true;
 		}
 		
-		if(squares[xMoves(y, x, squares[y][x].getColour())[0]][xMoves(y, x, squares[y][x].getColour())[1]].getType() == PieceType.ROOK || squares[tMoves(y, x, squares[y][x].getColour())[0]][xMoves(y, x, squares[y][x].getColour())[1]].getType() == PieceType.QUEEN || squares[tMoves(y, x, squares[y][x].getColour())[0]][xMoves(y, x, squares[y][x].getColour())[1]].getType() == PieceType.ROOK) {
+		if((squares[xMoves(y, x, squares[y][x].getColour())[0]][xMoves(y, x, squares[y][x].getColour())[1]].getType() == PieceType.BISHOP || squares[xMoves(y, x, squares[y][x].getColour())[0]][xMoves(y, x, squares[y][x].getColour())[1]].getType() == PieceType.QUEEN || squares[xMoves(y, x, squares[y][x].getColour())[0]][xMoves(y, x, squares[y][x].getColour())[1]].getType() == PieceType.ROOK) && squares[xMoves(y, x, squares[y][x].getColour())[0]][xMoves(y, x, squares[y][x].getColour())[1]].getColour() != squares[y][x].getColour()) {
 			return true;
 		}
 		
-		if(squares[xMoves(y, x, squares[y][x].getColour())[2]][xMoves(y, x, squares[y][x].getColour())[3]].getType() == PieceType.ROOK || squares[tMoves(y, x, squares[y][x].getColour())[2]][xMoves(y, x, squares[y][x].getColour())[3]].getType() == PieceType.QUEEN || squares[tMoves(y, x, squares[y][x].getColour())[2]][xMoves(y, x, squares[y][x].getColour())[3]].getType() == PieceType.ROOK) {
+		if((squares[xMoves(y, x, squares[y][x].getColour())[2]][xMoves(y, x, squares[y][x].getColour())[3]].getType() == PieceType.BISHOP || squares[tMoves(y, x, squares[y][x].getColour())[2]][xMoves(y, x, squares[y][x].getColour())[3]].getType() == PieceType.QUEEN || squares[xMoves(y, x, squares[y][x].getColour())[2]][xMoves(y, x, squares[y][x].getColour())[3]].getType() == PieceType.ROOK) && squares[xMoves(y, x, squares[y][x].getColour())[2]][xMoves(y, x, squares[y][x].getColour())[3]].getColour() != squares[y][x].getColour()) {
 			return true;
 		}
 		
-		if(squares[xMoves(y, x, squares[y][x].getColour())[4]][xMoves(y, x, squares[y][x].getColour())[5]].getType() == PieceType.ROOK || squares[tMoves(y, x, squares[y][x].getColour())[4]][xMoves(y, x, squares[y][x].getColour())[5]].getType() == PieceType.QUEEN || squares[tMoves(y, x, squares[y][x].getColour())[4]][xMoves(y, x, squares[y][x].getColour())[5]].getType() == PieceType.ROOK) {
+		if((squares[xMoves(y, x, squares[y][x].getColour())[4]][xMoves(y, x, squares[y][x].getColour())[5]].getType() == PieceType.BISHOP || squares[xMoves(y, x, squares[y][x].getColour())[4]][xMoves(y, x, squares[y][x].getColour())[5]].getType() == PieceType.QUEEN || squares[xMoves(y, x, squares[y][x].getColour())[4]][xMoves(y, x, squares[y][x].getColour())[5]].getType() == PieceType.ROOK)&& squares[xMoves(y, x, squares[y][x].getColour())[4]][xMoves(y, x, squares[y][x].getColour())[5]].getColour() != squares[y][x].getColour()) {
 			return true;
 		}
 		
-		if(squares[xMoves(y, x, squares[y][x].getColour())[6]][xMoves(y, x, squares[y][x].getColour())[7]].getType() == PieceType.ROOK || squares[tMoves(y, x, squares[y][x].getColour())[6]][xMoves(y, x, squares[y][x].getColour())[7]].getType() == PieceType.QUEEN || squares[tMoves(y, x, squares[y][x].getColour())[6]][xMoves(y, x, squares[y][x].getColour())[7]].getType() == PieceType.ROOK) {
+		if((squares[xMoves(y, x, squares[y][x].getColour())[6]][xMoves(y, x, squares[y][x].getColour())[7]].getType() == PieceType.BISHOP || squares[xMoves(y, x, squares[y][x].getColour())[6]][xMoves(y, x, squares[y][x].getColour())[7]].getType() == PieceType.QUEEN || squares[xMoves(y, x, squares[y][x].getColour())[6]][xMoves(y, x, squares[y][x].getColour())[7]].getType() == PieceType.ROOK) && squares[xMoves(y, x, squares[y][x].getColour())[6]][xMoves(y, x, squares[y][x].getColour())[7]].getColour() != squares[y][x].getColour()) {
 			return true;
 		}
 		
@@ -492,7 +493,7 @@ public class Board {
 		ArrayList<Move> kMoves = knightMoves(x, y);	
 		
 		for(int i = 0; i < kMoves.size(); i++){
-			if(squares[kMoves.get(i).pos1()[1]][kMoves.get(i).pos1()[0]].getType() == PieceType.KNIGHT && squares[kMoves.get(i).pos1()[1]][kMoves.get(i).pos1()[0]].getColour() != squares[y][x].getColour()) {
+			if(squares[kMoves.get(i).y2()][kMoves.get(i).x2()].getType() == PieceType.KNIGHT && squares[kMoves.get(i).y2()][kMoves.get(i).x2()].getColour() != squares[y][x].getColour()) {
 				return true;
 			}
 		}
@@ -500,6 +501,39 @@ public class Board {
 		
 		return false;
 	}
+	
+	public int [] wKingPos() {
+		int [] pos = new int[2];
+		for(int rows = 0; rows < 8; rows++) {
+			for(int cols = 0; cols < 8; cols++) {
+				if(squares[rows][cols].getColour() && squares[rows][cols].getType() == PieceType.KING) {
+					pos[0] = rows;
+					pos[1] = cols;
+				}
+			}
+		}
+		return pos;
+	}
+	
+	public int [] bKingPos() {
+		int [] pos = new int[2];
+		for(int rows = 0; rows < 8; rows++) {
+			for(int cols = 0; cols < 8; cols++) {
+				if(! squares[rows][cols].getColour() && squares[rows][cols].getType() == PieceType.KING) {
+					pos[0] = rows;
+					pos[1] = cols;
+				}
+			}
+		}
+		return pos;
+	}
+	
+
+		
+		
+		
+		
+		
 	
 	
 	
@@ -525,39 +559,108 @@ public class Board {
 	public void makeMove(int x1, int y1, int x2, int y2) {
 		// for the sake readability
 		PieceType piece = squares[y1][x1].getType();
-		
-		if (piece == PieceType.PAWN) {
-			if(legalPawnMove(x1, y1, x2, y2)) {
-				move(x1, y1, x2, y2);
-				squares[y2][x2].setHasMoved();
+		if(players.whiteMove()) {
+			if (piece == PieceType.PAWN) {
+				if(legalPawnMove(x1, y1, x2, y2)) {
+					move(x1, y1, x2, y2);
+					squares[y2][x2].setHasMoved();
+					if(isCheck(wKingPos()[0], wKingPos()[1])) {
+						move(x2, y2, x1, y1);
+					}
+					
+				}
+			}
+			
+			if(piece == PieceType.KNIGHT) {
+				if(legalKnightMove(x1, y1, x2, y2)) {
+					move(x1, y1, x2, y2);
+					if(isCheck(wKingPos()[0], wKingPos()[1])) {
+						move(x2, y2, x1, y1);
+					}
+				}
+			}
+			
+			if(piece == PieceType.BISHOP) {
+				if(isxMoveLegal(x1, y1, x2, y2)) {
+					move(x1, y1, x2, y2);
+					if(isCheck(wKingPos()[0], wKingPos()[1])) {
+						move(x2, y2, x1, y1);
+					}
+				}
+			}
+			
+			if(piece == PieceType.QUEEN) {
+				if(isxMoveLegal(x1, y1, x2, y2) || istMoveLegal(x1, y1, x2, y2)) {
+					move(x1, y1, x2, y2);
+					if(isCheck(wKingPos()[0], wKingPos()[1])) {
+						move(x2, y2, x1, y1);
+					}
+				}
+	
+	
+			}
+			
+			if(piece == PieceType.ROOK) {
+				if(istMoveLegal(x1, y1, x2, y2)) {
+					move(x1, y1, x2, y2);
+					if(isCheck(wKingPos()[0], wKingPos()[1])) {
+						move(x2, y2, x1, y1);
+					}
+				}
 			}
 		}
 		
-		if(piece == PieceType.KNIGHT) {
-			if(legalKnightMove(x1, y1, x2, y2)) {
-				move(x1, y1, x2, y2);
+		else {
+			if (piece == PieceType.PAWN) {
+				if(legalPawnMove(x1, y1, x2, y2)) {
+					move(x1, y1, x2, y2);
+					squares[y2][x2].setHasMoved();
+					if(isCheck(bKingPos()[0], bKingPos()[1])) {
+						move(x2, y2, x1, y1);
+					}
+					
+				}
+			}
+			
+			if(piece == PieceType.KNIGHT) {
+				if(legalKnightMove(x1, y1, x2, y2)) {
+					move(x1, y1, x2, y2);
+					if(isCheck(bKingPos()[0], bKingPos()[1])) {
+						move(x2, y2, x1, y1);
+					}
+				}
+			}
+			
+			if(piece == PieceType.BISHOP) {
+				if(isxMoveLegal(x1, y1, x2, y2)) {
+					move(x1, y1, x2, y2);
+					if(isCheck(bKingPos()[0], bKingPos()[1])) {
+						move(x2, y2, x1, y1);
+					}
+				}
+			}
+			
+			if(piece == PieceType.QUEEN) {
+				if(isxMoveLegal(x1, y1, x2, y2) || istMoveLegal(x1, y1, x2, y2)) {
+					move(x1, y1, x2, y2);
+					if(isCheck(bKingPos()[0], bKingPos()[1])) {
+						move(x2, y2, x1, y1);
+					}
+				}
+	
+	
+			}
+			
+			if(piece == PieceType.ROOK) {
+				if(istMoveLegal(x1, y1, x2, y2)) {
+					move(x1, y1, x2, y2);
+					if(isCheck(bKingPos()[0], bKingPos()[1])) {
+						move(x2, y2, x1, y1);
+					}
+				}
 			}
 		}
 		
-		if(piece == PieceType.BISHOP) {
-			if(isxMoveLegal(x1, y1, x2, y2)) {
-				move(x1, y1, x2, y2);
-			}
-		}
-		
-		if(piece == PieceType.QUEEN) {
-			if(isxMoveLegal(x1, y1, x2, y2) || istMoveLegal(x1, y1, x2, y2)) {
-				move(x1, y1, x2, y2);
-			}
-
-
-		}
-		
-		if(piece == PieceType.ROOK) {
-			if(istMoveLegal(x1, y1, x2, y2)) {
-				move(x1, y1, x2, y2);
-			}
-		}
 	}
 	
 	@Override
