@@ -416,28 +416,7 @@ public class Board {
 		return false;
 		
 	}
-	// not done
-	public boolean legalKingMove(int x1, int y1, int x2, int y2) {
 
-		if(squares[tMoves(y2, x2, squares[y1][x1].getColour())[0]][x2].getType() == PieceType.QUEEN || squares[tMoves(y2, x2, squares[y1][x1].getColour())[0]][x2].getType() == PieceType.ROOK || squares[tMoves(y2, x2, squares[y1][x1].getColour())[0]][x2].getType() == PieceType.KING) {
-			return false;
-		}	
-		
-		if(squares[tMoves(y2, x2, squares[y1][x1].getColour())[2]][x2].getType() == PieceType.QUEEN || squares[tMoves(y2, x2, squares[y1][x1].getColour())[2]][x2].getType() == PieceType.ROOK || squares[tMoves(y2, x2, squares[y1][x1].getColour())[2]][x2].getType() == PieceType.KING) {
-			return false;
-		}	
-		
-		if(squares[tMoves(y2, x2, squares[y1][x1].getColour())[y2]][1].getType() == PieceType.QUEEN || squares[tMoves(y2, x2, squares[y1][x1].getColour())[y2]][1].getType() == PieceType.ROOK || squares[tMoves(y2, x2, squares[y1][x1].getColour())[y2]][1].getType() == PieceType.KING) {
-			return false;
-		}	
-		
-		if(squares[tMoves(y2, x2, squares[y1][x1].getColour())[y2]][3].getType() == PieceType.QUEEN || squares[tMoves(y2, x2, squares[y1][x1].getColour())[y2]][3].getType() == PieceType.ROOK || squares[tMoves(y2, x2, squares[y1][x1].getColour())[y2]][3].getType() == PieceType.KING) {
-			return false;
-		}	
-		
-		return true;
-	}
-	
 	public ArrayList<Move> knightMoves(int x1, int y1) {
 		ArrayList<Move> moves = new ArrayList<Move>();
 		
@@ -529,19 +508,62 @@ public class Board {
 	}
 	
 
+	public ArrayList<Move> kingMoves(int x1, int y1){
+		// t moves
+		ArrayList<Move> kingMoves = new ArrayList<Move>();
+		
+		if(istMoveLegal(x1, y1, x1+1, y1) ) {
+			if(! isCheck(x1+1, y1) && x1 >= 0 && y1 >= 0 && x1 + 1 < 8 && y1 < 8) {
+				kingMoves.add(new Move(x1, y1, x1+1, y1) );
+			}
+		}
+		
+		if(istMoveLegal(x1, y1, x1-1, y1) ) {
+			if(! isCheck(x1-1, y1) && x1 - 1 >= 0 && y1 >= 0 && x1 - 1 < 8 && y1 < 8) {
+				kingMoves.add(new Move(x1, y1, x1-1, y1));
+			}
+		}
+		
+		if(istMoveLegal(x1, y1, x1, y1 + 1) ) {
+			if(! isCheck(x1, y1 + 1) && x1 >= 0 && y1 + 1 >= 0 && x1  < 8 && y1 + 1 < 8) {
+				kingMoves.add(new Move(x1, y1, x1, y1 + 1));
+			}
+		}
+		
+		if(istMoveLegal(x1, y1, x1, y1 - 1) ) {
+			if(! isCheck(x1, y1 - 1) && x1 >= 0 && y1 - 1 >= 0 && x1  < 8 && y1 - 1 < 8) {
+				kingMoves.add(new Move(x1, y1, x1, y1 - 1));
+			}
+		}
+		
+		// diagonal
+		if(isxMoveLegal(x1, y1, x1+1, y1 + 1)) {
+			if(! isCheck(x1+1, y1 + 1) && x1 >= 0 && y1 >= 0 && x1 +1  < 8 && y1 + 1 < 8) {
+				kingMoves.add(new Move(x1, y1, x1+1, y1) );
+			}
+		}
+		
+		if(isxMoveLegal(x1, y1, x1-1, y1 -1)) {
+			if(! isCheck(x1-1, y1 - 1)  && x1 - 1 >= 0 && y1 -1 >= 0 && x1  < 8 && y1 < 8) {
+				kingMoves.add(new Move(x1, y1, x1-1, y1 - 1));
+			}
+		}
+		if(isxMoveLegal(x1, y1, x1 - 1, y1 + 1)) {
+			if(! isCheck(x1, y1 + 1) && x1 - 1 >= 0 && y1 >= 0 && x1  < 8 && y1 + 1 < 8) {
+				kingMoves.add(new Move(x1, y1, x1 - 1, y1 + 1));
+			}
+		}
+		if(isxMoveLegal(x1, y1, x1 + 1, y1 - 1) ) {
+			if(! isCheck(x1, y1 - 1) && x1 > 0 && y1 - 1 > 0 && x1 + 1 < 8 && y1 - 1 < 8) {
+				kingMoves.add(new Move(x1, y1, x1 + 1, y1 - 1));
+			}
+		}
 		
 		
+		return kingMoves;
+	}
 		
-		
-		
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	
@@ -559,13 +581,14 @@ public class Board {
 	public void makeMove(int x1, int y1, int x2, int y2) {
 		// for the sake readability
 		PieceType piece = squares[y1][x1].getType();
-		if(players.whiteMove()) {
+		if(players.whiteMove() && squares[y1][x1].getColour() == true) {
 			if (piece == PieceType.PAWN) {
 				if(legalPawnMove(x1, y1, x2, y2)) {
 					move(x1, y1, x2, y2);
 					squares[y2][x2].setHasMoved();
 					if(isCheck(wKingPos()[0], wKingPos()[1])) {
 						move(x2, y2, x1, y1);
+						players.next();
 					}
 					
 				}
@@ -576,6 +599,7 @@ public class Board {
 					move(x1, y1, x2, y2);
 					if(isCheck(wKingPos()[0], wKingPos()[1])) {
 						move(x2, y2, x1, y1);
+						players.next();
 					}
 				}
 			}
@@ -585,6 +609,7 @@ public class Board {
 					move(x1, y1, x2, y2);
 					if(isCheck(wKingPos()[0], wKingPos()[1])) {
 						move(x2, y2, x1, y1);
+						players.next();
 					}
 				}
 			}
@@ -594,6 +619,7 @@ public class Board {
 					move(x1, y1, x2, y2);
 					if(isCheck(wKingPos()[0], wKingPos()[1])) {
 						move(x2, y2, x1, y1);
+						players.next();
 					}
 				}
 	
@@ -605,6 +631,7 @@ public class Board {
 					move(x1, y1, x2, y2);
 					if(isCheck(wKingPos()[0], wKingPos()[1])) {
 						move(x2, y2, x1, y1);
+						players.next();
 					}
 				}
 			}
@@ -617,6 +644,7 @@ public class Board {
 					squares[y2][x2].setHasMoved();
 					if(isCheck(bKingPos()[0], bKingPos()[1])) {
 						move(x2, y2, x1, y1);
+						players.next();
 					}
 					
 				}
@@ -627,6 +655,7 @@ public class Board {
 					move(x1, y1, x2, y2);
 					if(isCheck(bKingPos()[0], bKingPos()[1])) {
 						move(x2, y2, x1, y1);
+						players.next();
 					}
 				}
 			}
@@ -636,6 +665,7 @@ public class Board {
 					move(x1, y1, x2, y2);
 					if(isCheck(bKingPos()[0], bKingPos()[1])) {
 						move(x2, y2, x1, y1);
+						players.next();
 					}
 				}
 			}
@@ -645,6 +675,7 @@ public class Board {
 					move(x1, y1, x2, y2);
 					if(isCheck(bKingPos()[0], bKingPos()[1])) {
 						move(x2, y2, x1, y1);
+						players.next();
 					}
 				}
 	
@@ -656,10 +687,12 @@ public class Board {
 					move(x1, y1, x2, y2);
 					if(isCheck(bKingPos()[0], bKingPos()[1])) {
 						move(x2, y2, x1, y1);
+						players.next();
 					}
 				}
 			}
 		}
+		players.next();
 		
 	}
 	
