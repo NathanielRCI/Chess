@@ -8,6 +8,8 @@ public class Board {
 	private Player players;
 	
 	Board(){
+		// creating pieces
+		
 		squares = new Piece[numRows][numCols];
 		squares[0][0] = new Piece(PieceType.ROOK,true);
 		squares[0][1] = new Piece(PieceType.KNIGHT,true);
@@ -60,13 +62,24 @@ public class Board {
 	
 	
 	}
-	
+	/**
+	 * returns piece
+	 * @param xpos
+	 * @param ypos
+	 * @return Piece object
+	 */
 	public Piece infoOnPiece(int xpos, int ypos) {
 		return squares[ypos][xpos];
 	}
 	
 	// pseudo legal sliding
-	
+	/**
+	 * generates the max x/y positions for moves in t directions
+	 * @param ypos
+	 * @param xpos
+	 * @param colour
+	 * @return
+	 */
 	public int [] tMoves(int ypos, int xpos, boolean colour) {
 		// 1 slot up 2nd slot right, 3rd slot down 4th slot left
 		int [] Edges = new int[4];
@@ -126,7 +139,13 @@ public class Board {
 	
 	
 	
-	
+	/**
+	 * list of x and y max positions in max directions
+	 * @param ypos
+	 * @param xpos
+	 * @param colour
+	 * @return max pos in x directions
+	 */
 	public int [] xMoves(int ypos, int xpos, boolean colour) {
 		// starting with north East edges and going clock wise
 		int [] Edges = new int[8];
@@ -208,6 +227,14 @@ public class Board {
 		return Edges;
 	}
 	
+	/**
+	 * check in move in t direction is legal
+	 * @param xpos
+	 * @param ypos
+	 * @param x2pos
+	 * @param y2pos
+	 * @return true if move is legal
+	 */
 	public boolean istMoveLegal(int xpos, int ypos, int x2pos, int y2pos) {
 		// checking north
 		if(xpos == x2pos && ypos < y2pos) {
@@ -247,7 +274,6 @@ public class Board {
 	
 	
 	
-
 	public boolean isxMoveLegal(int xpos, int ypos, int x2pos, int y2pos) {
 		// north east
 		if(xpos < x2pos && ypos < y2pos) {
@@ -285,6 +311,14 @@ public class Board {
 		return false;
 	}
 	
+	/**
+	 * check in pawn move is legal
+	 * @param xpos
+	 * @param ypos
+	 * @param x2pos
+	 * @param y2pos
+	 * @return check if move with pawn is legal
+	 */
 	public boolean legalPawnMove(int xpos, int ypos, int x2pos, int y2pos) {
 		if(squares[ypos][xpos].getColour() == true) {
 			if(xpos == x2pos && ypos == y2pos) {
@@ -340,6 +374,14 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * check is move with knight is legal
+	 * @param xpos
+	 * @param ypos
+	 * @param x2pos
+	 * @param y2pos
+	 * @return
+	 */
 	public boolean legalKnightMove(int xpos, int ypos, int x2pos, int y2pos) {
 		
 		if(x2pos == xpos + 1 && y2pos == ypos +2 && squares[y2pos][x2pos].getType() == PieceType.NONE) {
@@ -416,11 +458,16 @@ public class Board {
 		return false;
 		
 	}
-
+	
+	/**
+	 * return an array list of moves for a given pos
+	 * @param x1
+	 * @param y1
+	 * @return
+	 */
 	public ArrayList<Move> knightMoves(int x1, int y1) {
 		ArrayList<Move> moves = new ArrayList<Move>();
 		
-
 		for(int rows1 = 0; rows1 < 8; rows1++) {
 			for(int cols = 0; cols < 8; cols++) {
 				if(legalKnightMove(x1, y1, cols, rows1)) {
@@ -433,7 +480,6 @@ public class Board {
 		return moves;
 	}
 	
-
 	public boolean isCheck(int x, int y) {
 		if((squares[tMoves(y, x, squares[y][x].getColour())[0]][x].getType() == PieceType.ROOK || squares[tMoves(y, x, squares[y][x].getColour())[0]][x].getType() == PieceType.QUEEN || squares[tMoves(y, x, squares[y][x].getColour())[0]][x].getType() == PieceType.ROOK) && squares[tMoves(y, x, squares[y][x].getColour())[0]][x].getColour() != squares[y][x].getColour()) {
 			return true;
@@ -507,7 +553,6 @@ public class Board {
 		return pos;
 	}
 	
-
 	public ArrayList<Move> kingMoves(int x1, int y1){
 		// t moves
 		ArrayList<Move> kingMoves = new ArrayList<Move>();
@@ -562,8 +607,22 @@ public class Board {
 		
 		return kingMoves;
 	}
-		
+	
+	public boolean legalKingMove(int x1, int y1, int x2, int y2) {
+		Move move = new Move(x1, y1, x2, y2);
+		for(int i = 0; i < kingMoves(x1, y1).size(); i++) {
+			if(kingMoves(x1, y1).get(i).x2() == x2 && kingMoves(x1, y1).get(i).y2() == y2 && kingMoves(x1, y1).get(i).x() == x1 &&kingMoves(x1, y1).get(i).y() == y1) {
+				return true;
+			}
+			
+		}
 
+		
+		
+		return false;
+		
+	}
+		
 	
 	
 	
@@ -635,9 +694,18 @@ public class Board {
 					}
 				}
 			}
+			if(piece == PieceType.KING) {
+				if(legalKingMove(x1, y1, x2, y2)) {
+					move(x1, y1, x2, y2);
+					if(isCheck(wKingPos()[0], wKingPos()[1])) {
+						move(x2, y2, x1, y1);
+						players.next();
+					}
+				}
+			}
 		}
 		
-		else {
+		else if(! players.whiteMove() && squares[y1][x1].getColour() == false){
 			if (piece == PieceType.PAWN) {
 				if(legalPawnMove(x1, y1, x2, y2)) {
 					move(x1, y1, x2, y2);
@@ -691,10 +759,21 @@ public class Board {
 					}
 				}
 			}
+			
+			if(piece == PieceType.KING) {
+				if(kingMoves(x1, y1).contains(new Move(x1, y1, x2, y2))) {
+					move(x1, y1, x2, y2);
+					if(isCheck(bKingPos()[0], bKingPos()[1])) {
+						move(x2, y2, x1, y1);
+						players.next();
+					}
+				}
+			}
 		}
 		players.next();
 		
 	}
+	
 	
 	@Override
 	public String toString() {
@@ -712,6 +791,4 @@ public class Board {
 	
 	
 }
-
-
 
