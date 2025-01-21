@@ -5,16 +5,6 @@ public class Driver {
 		Scanner in = new Scanner(System.in);
 		Board b = new Board();
 		System.out.println(b);
-		b.makeMove(4, 1, 4, 2);
-		
-		System.out.println(b);
-		System.out.println(b.kingMoves(4, 0));
-		
-		Move move = new Move(4, 0, 4, 1);
-		
-		System.out.println(b.kingMoves(4, 0).get(0).y2() == move.y2());
-		
-		
 		
 		while(true) {
 			System.out.println("input x y x2 y2");
@@ -24,6 +14,15 @@ public class Driver {
 			int y2 = in.nextInt();
 			b.makeMove(x, y, x2, y2);
 			System.out.print(b);
+			
+			
+			if(b.isCheck(b.bKingPos()[1], b.bKingPos()[0])) {
+				System.out.println("check");
+			}
+			
+			if(b.isCheck(b.wKingPos()[1], b.wKingPos()[0])) {
+				System.out.println("check");
+			}
 			
 			
 		}
