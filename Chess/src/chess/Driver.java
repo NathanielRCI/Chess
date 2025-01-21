@@ -5,6 +5,7 @@ public class Driver {
 		Scanner in = new Scanner(System.in);
 		Board b = new Board();
 		System.out.println(b);
+
 		
 		while(true) {
 			System.out.println("input x y x2 y2");
